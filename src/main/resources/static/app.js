@@ -1,12 +1,10 @@
 const form = document.querySelector('#uploadForm');
 const fileInput = document.querySelector('#fileInput');
-const referenceInput = document.querySelector('#referenceInput');
 const csvButton = document.querySelector('#csvButton');
 const statusBox = document.querySelector('#status');
 const routeRows = document.querySelector('#routeRows');
 
 let lastFile = null;
-let lastReferenceFile = null;
 
 form.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -15,16 +13,12 @@ form.addEventListener('submit', async (event) => {
         return;
     }
     lastFile = file;
-    lastReferenceFile = referenceInput.files[0] || null;
     setStatus('Generating draft RCC...');
     csvButton.disabled = true;
 
     try {
         const body = new FormData();
         body.append('file', file);
-        if (lastReferenceFile) {
-            body.append('referenceRcc', lastReferenceFile);
-        }
         const response = await fetch('/api/rcc', { method: 'POST', body });
         if (!response.ok) {
             throw new Error(await response.text());
@@ -43,9 +37,6 @@ csvButton.addEventListener('click', async () => {
     }
     const body = new FormData();
     body.append('file', lastFile);
-    if (lastReferenceFile) {
-        body.append('referenceRcc', lastReferenceFile);
-    }
     const response = await fetch('/api/rcc.csv', { method: 'POST', body });
     if (!response.ok) {
         setStatus(await response.text());

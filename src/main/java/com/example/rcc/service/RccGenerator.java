@@ -21,8 +21,8 @@ public class RccGenerator {
         boolean hasTextLayer = !TextNormalizer.cleanLabel(extractedPdf.text()).isBlank();
         List<String> warnings = new ArrayList<>();
         if (!hasTextLayer) {
-            warnings.add("This PDF has no extractable text layer. It appears to be a scanned/image-only SIP.");
-            warnings.add("Upload the approved RCC/Selection Table PDF in the RCC/Table field, or run OCR to create a searchable SIP PDF and upload that OCR PDF.");
+            warnings.add("This SIP PDF has no extractable text layer, and OCR did not return readable railway labels.");
+            warnings.add("Install Tesseract OCR on this machine or upload a searchable/OCR SIP PDF so the app can process the SIP and generate RCC.");
         } else {
             warnings.addAll(yardModel.notes());
             if (routesWithConflicts.isEmpty()) {
@@ -41,41 +41,6 @@ public class RccGenerator {
                 yardModel.deadEnds(),
                 yardModel.lines(),
                 routesWithConflicts,
-                warnings
-        );
-    }
-
-    public RccResponse generateFromReference(ExtractedPdf sipPdf, YardModel sipModel,
-            ExtractedPdf referencePdf, List<RccRoute> referenceRoutes, Set<String> referenceSignals,
-            Set<String> referencePoints, Set<String> referenceTrackCircuits) {
-        Set<String> signals = new LinkedHashSet<>(sipModel.signals());
-        signals.addAll(referenceSignals);
-        Set<String> points = new LinkedHashSet<>(sipModel.points());
-        points.addAll(referencePoints);
-        Set<String> axleCounters = new LinkedHashSet<>(sipModel.axleCounters());
-        axleCounters.addAll(referenceTrackCircuits);
-
-        List<String> warnings = new ArrayList<>();
-        if (TextNormalizer.cleanLabel(sipPdf.text()).isBlank()) {
-            warnings.add("SIP PDF has no extractable text layer; routes were read from the supplied RCC/Selection Table PDF.");
-        } else {
-            warnings.add("Routes were read from the supplied RCC/Selection Table PDF and SIP labels were used as supporting object evidence.");
-        }
-        warnings.add("Reference table parsing is generic and must be checked against the approved signalling RCC before EI data use.");
-        if (referenceRoutes.isEmpty()) {
-            warnings.add("No route rows could be extracted from the supplied RCC/Selection Table PDF.");
-        }
-
-        return new RccResponse(
-                sipPdf.fileName(),
-                sipPdf.pageCount(),
-                referenceRoutes.isEmpty() ? "REFERENCE_RCC_NO_ROWS" : "REFERENCE_RCC_EXTRACTED",
-                signals,
-                points,
-                axleCounters,
-                sipModel.deadEnds(),
-                sipModel.lines(),
-                attachConflicts(referenceRoutes),
                 warnings
         );
     }

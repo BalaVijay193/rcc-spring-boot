@@ -36,9 +36,9 @@ class RccGeneratorTest {
 
         assertThat(response.extractionStatus()).isEqualTo("NO_TEXT_LAYER");
         assertThat(response.warnings())
-                .anyMatch(warning -> warning.contains("scanned/image-only SIP"));
+                .anyMatch(warning -> warning.contains("no extractable text layer"));
         assertThat(response.warnings())
-                .anyMatch(warning -> warning.contains("RCC/Table"));
+                .anyMatch(warning -> warning.contains("Tesseract OCR"));
         assertThat(response.warnings())
                 .noneMatch(warning -> warning.contains("No L-n yard line"));
         assertThat(response.warnings())

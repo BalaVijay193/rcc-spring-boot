@@ -11,16 +11,12 @@
     <section class="toolbar" aria-label="RCC generation controls">
         <div>
             <h1>Route Control Chart Generator</h1>
-            <p>Upload a SIP PDF. Add an approved RCC/Selection Table PDF when the SIP is scanned or image-only.</p>
+            <p>Upload a Signal Interlocking Plan PDF to generate a draft RCC table.</p>
         </div>
         <form id="uploadForm" class="upload-form">
             <label>
                 <span>SIP</span>
                 <input id="fileInput" name="file" type="file" accept="application/pdf" required>
-            </label>
-            <label>
-                <span>RCC/Table</span>
-                <input id="referenceInput" name="referenceRcc" type="file" accept="application/pdf">
             </label>
             <button type="submit">Generate</button>
             <button id="csvButton" type="button" disabled>CSV</button>
