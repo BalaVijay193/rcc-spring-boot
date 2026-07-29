@@ -16,6 +16,20 @@ Open:
 http://localhost:8080
 ```
 
+## Sync To STS Workspace
+
+The preferred working copy for this project is:
+
+```text
+D:\STSWorkspace\29Jul2026\railway-signaling-diagram-processor
+```
+
+From this repository, run:
+
+```powershell
+.\sync-to-sts-workspace.ps1
+```
+
 Upload a text/searchable SIP:
 
 ```text
