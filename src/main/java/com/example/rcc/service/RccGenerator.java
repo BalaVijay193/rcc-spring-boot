@@ -18,15 +18,16 @@ public class RccGenerator {
     public RccResponse generate(ExtractedPdf extractedPdf, YardModel yardModel) {
         List<RccRoute> routes = buildRoutes(yardModel);
         List<RccRoute> routesWithConflicts = attachConflicts(routes);
-        List<String> warnings = new ArrayList<>(yardModel.notes());
         boolean hasTextLayer = !TextNormalizer.cleanLabel(extractedPdf.text()).isBlank();
+        List<String> warnings = new ArrayList<>();
         if (!hasTextLayer) {
-            warnings.add(0, "This PDF has no extractable text layer. It appears to be a scanned/image-only SIP. Run OCR to create a searchable PDF, then upload the OCR PDF.");
-        }
-        if (routesWithConflicts.isEmpty()) {
-            warnings.add("No routes could be generated from extracted yard lines.");
-        }
-        if (hasTextLayer) {
+            warnings.add("This PDF has no extractable text layer. It appears to be a scanned/image-only SIP.");
+            warnings.add("Upload the approved RCC/Selection Table PDF in the RCC/Table field, or run OCR to create a searchable SIP PDF and upload that OCR PDF.");
+        } else {
+            warnings.addAll(yardModel.notes());
+            if (routesWithConflicts.isEmpty()) {
+                warnings.add("No routes could be generated from extracted yard lines.");
+            }
             warnings.add("Point N/R positions are inferred from extracted line/point membership and require field validation.");
         }
 

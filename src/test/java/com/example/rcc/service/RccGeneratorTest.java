@@ -37,6 +37,12 @@ class RccGeneratorTest {
         assertThat(response.extractionStatus()).isEqualTo("NO_TEXT_LAYER");
         assertThat(response.warnings())
                 .anyMatch(warning -> warning.contains("scanned/image-only SIP"));
+        assertThat(response.warnings())
+                .anyMatch(warning -> warning.contains("RCC/Table"));
+        assertThat(response.warnings())
+                .noneMatch(warning -> warning.contains("No L-n yard line"));
+        assertThat(response.warnings())
+                .noneMatch(warning -> warning.contains("No signal labels"));
         assertThat(response.routes()).isEmpty();
     }
 }
