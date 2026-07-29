@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RCC Generator</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="shell">
+    <section class="toolbar" aria-label="RCC generation controls">
+        <div>
+            <h1>Route Control Chart Generator</h1>
+            <p>Upload a SIP PDF. Add an approved RCC/Selection Table PDF when the SIP is scanned or image-only.</p>
+        </div>
+        <form id="uploadForm" class="upload-form">
+            <label>
+                <span>SIP</span>
+                <input id="fileInput" name="file" type="file" accept="application/pdf" required>
+            </label>
+            <label>
+                <span>RCC/Table</span>
+                <input id="referenceInput" name="referenceRcc" type="file" accept="application/pdf">
+            </label>
+            <button type="submit">Generate</button>
+            <button id="csvButton" type="button" disabled>CSV</button>
+        </form>
+    </section>
+
+    <section id="status" class="status" hidden></section>
+
+    <section class="summary-grid" aria-label="Extracted object summary">
+        <article>
+            <span>Signals</span>
+            <strong id="signalCount">0</strong>
+        </article>
+        <article>
+            <span>Points</span>
+            <strong id="pointCount">0</strong>
+        </article>
+        <article>
+            <span>Axle Counters</span>
+            <strong id="axleCount">0</strong>
+        </article>
+        <article>
+            <span>Routes</span>
+            <strong id="routeCount">0</strong>
+        </article>
+    </section>
+
+    <section class="table-wrap" aria-label="Route Control Chart">
+        <table>
+            <thead>
+            <tr>
+                <th>Route</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Dir</th>
+                <th>Track/Axle</th>
+                <th>Points N</th>
+                <th>Points R</th>
+                <th>Overlap</th>
+                <th>Conflicts</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody id="routeRows">
+            <tr>
+                <td colspan="10" class="empty">No RCC generated yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>
